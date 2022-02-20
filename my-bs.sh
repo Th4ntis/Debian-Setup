@@ -81,10 +81,24 @@ setup(){
     echo -e "\n $greenplus Complete! \n"
 
     echo -e "\n $greenplus Installing timeshift \n"
-    sudo apt-add-repository -y ppa:teejee2008/ppa
+    sudo add-apt-repository -y ppa:teejee2008/timeshift
     sudo apt update
     sudo apt install -y timeshift
     echo -e "\n $greenplus timeshift install complete \n"
+
+    echo -e "\n $greenplus Installing MullvadVPN \n"
+    wget --content-disposition https://mullvad.net/download/app/deb/latest
+    sudo apt install -y ./MullvadVPN-*_amd64.deb
+    sudo rm Mullvad*
+    echo -e "\n $greenplus MullvadVPN install complete \n"
+
+    echo -e "\n $greenplus Installing BraveBrowser \n"
+    sudo apt install apt-transport-https curl
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    sudo apt update
+    sudo apt install brave-browser
+    echo -e "\n $greenplus BraveBrowser install complete \n"
 
     echo -e "\n $greenplus Installing Flatpak, Bitwarden, Tor Browser, and Onion Share \n"
     sleep 2
@@ -120,7 +134,7 @@ setup(){
     echo -e "\n $greenplus Veracrypt install complete \n"
     sleep 2
 
-    echo -e "\n $greenplus Tnstalling Cryptomator \n"
+    echo -e "\n $greenplus Installing Cryptomator \n"
     sleep 2
     sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
     sudo apt update
@@ -128,7 +142,7 @@ setup(){
     echo -e "\n $greenplus Cryptomator install complete \n"
     sleep 2
 
-    echo -e "\n $greenplus Tnstalling Element \n"
+    echo -e "\n $greenplus Installing Element \n"
     sleep 2
     sudo apt install -y wget apt-transport-https
     sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
@@ -138,7 +152,7 @@ setup(){
     echo -e "\n $greenplus Element install complete \n"
     sleep 2
 
-    echo -e "\n $greenplus Tnstalling Signal \n"
+    echo -e "\n $greenplus Installing Signal \n"
     sleep 2
     wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
     cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
@@ -148,9 +162,10 @@ setup(){
     echo -e "\n $greenplus Signal install complete \n"
     sleep 2
 
-    echo -e "\n $greenplus Tnstalling Discord \n"
-    curl -o ~/Discord.deb "https://discord.com/api/download?platform=linux&format=deb"
+    echo -e "\n $greenplus Installing Discord \n"
+    wget -O ~/Discord.deb "https://discord.com/api/download?platform=linux&format=deb"
     sudo dpkg -i ~/Discord.deb;sudo apt install -f
+    sudo rm ~/Discord.deb
     echo -e "\n $greenplus Discord install complete \n"
     sleep 2
 
@@ -192,7 +207,7 @@ setup(){
     echo -e "\n Cleaning up... \n"
     rm -r $HOME/Public
     rm -r $HOME/Templates
-    sudo rm -r $HOME/my-bs
+    rm -r $HOME/Videos
     sudo rm -r $HOME/dotfiles
     echo -e "\n Finied! \n"
     sleep 2
