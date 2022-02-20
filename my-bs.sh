@@ -109,6 +109,12 @@ setup(){
     echo -e "\n $greenplus Complete \n"
     sleep 2
 
+    echo -e "\n $greenplus Installing Joplin \n"
+    sleep 2
+    wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
+    echo -e "\n $greenplus Complete \n"
+    sleep 2
+
     echo -e "\n $greenplus Installing Yubico Authenticator \n"
     sudo add-apt-repository -y ppa:yubico/stable
     sudo apt update
