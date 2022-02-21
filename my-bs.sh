@@ -6,10 +6,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # status indicators
-    greenplus='\e[1;33m[++]\e[0m'
-    greenminus='\e[1;33m[--]\e[0m'
-    redexclaim='\e[1;31m[!!]\e[0m'
-    blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
+greenplus='\e[1;33m[++]\e[0m'
 
 # variables moved from local to global
     detected_env=""
