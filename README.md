@@ -9,3 +9,5 @@ Script is very self explanitory. It installs a list of software via APT, then wi
 
 Will install [fusuma](https://github.com/iberianpig/fusuma) for touchpad gestures for laptops.
 Will install zsh and [Oh-My-ZSH](https://ohmyz.sh/) and pull my [Dotfiles](https://github.com/Th4ntis/dotfiles) for Vim, ZSH, and Tmux, get plugins and reboot to apply changes. Only thing this doesnt do it themeing since that depends on my mood. ;P
+
+test
