@@ -30,68 +30,72 @@ check_de() {
     }
 
 gnome_de () {
-    echo -e "\n $greenplus Gnome detected - Disabling Power Savings"
-    # ac power
-    sudo -i -u $USER gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # Disables automatic suspend on charging)
-     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing"
-    sudo -i -u $USER gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0         # Disables Inactive AC Timeout
-     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0"
-    # battery power
-    sudo -i -u $USER gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing # Disables automatic suspend on battery)
-     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing"
-    sudo -i -u $USER gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0    # Disables Inactive Battery Timeout
-     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0"
-     setup
+    # WIP
+     install
     }
 
 xfce_de () {
-    if [ $USER = "root" ]
-     then
-      echo -e "\n $greenplus XFCE Detected - disabling xfce power management \n"
-      eval wget $raw_xfce -O /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
-      echo -e "\n  $greenplus XFCE power management disabled for user: $USER \n"
-    else
-      echo -e "\n  $greenplus XFCE Detected - disabling xfce power management \n"
-      eval wget $raw_xfce -O /home/$USER/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
-      echo -e "\n  $greenplus XFCE power management disabled for user: $USER \n"
-    fi
-    setup
+    # WIP
+    install
     }
 
 kde_de () {
     # Configures KDE shortcuts
     sed -i 's/Alt+F4/Alt+Q/' ~/.config/kglobalshortcutsrc
-    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
-    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
+#    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
+#    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
     cat >> ~/.config/kglobalshortcutsrc << EOF
 [terminator.desktop]
 _k_friendly_name=Launch Terminator
-_launch=Alt+Return\t,none,Launch Terminator"
+_launch=Alt+Return\t,none,Launch Terminator
 EOF
-    echo -e "\n $greenplus KDE Shortcuts complete \n"
+    echo -e "\n $greenplus KDE config complete \n"
     sleep 2
-    setup
+    install
     }
 
-setup(){
+install() {
     sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
-
     echo -e "\n $greenplus Installing list of tools through apt \n"
     sudo apt install -y linux-headers-$(uname -r) adb acpi bleachbit build-essential cifs-utils clementine cups curl dialog dkms fastboot flameshot flatpak fonts-powerline gimp git gnome-software-plugin-flatpak gparted hexchat htop idle3 ipcalc krita libreoffice lm-sensors make network-manager-gnome network-manager-openvpn network-manager-pptp network-manager-strongswan network-manager-vpnc net-tools nload nmap openvpn openssh-server pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim wireshark zsh
     echo -e "\n $greenplus Complete! \n"
+    timeshift_install
+    mullvadvpn_install
+    brave_install
+    flatpak_install
+    joplin_install
+    yubico_install
+    sublime_install
+    veracrypt_install
+    cryptomator_install
+    element_install
+    signal_install
+    discord_install
+    fusuma_install
+    oh-my-zsh_install
+    tmux-plugins_install
+    dotfile_setup
+    cleanup
+    }
 
+timeshift_install() {
     echo -e "\n $greenplus Installing timeshift \n"
     sudo add-apt-repository -y ppa:teejee2008/timeshift
     sudo apt update
     sudo apt install -y timeshift
     echo -e "\n $greenplus timeshift install complete \n"
-
+    }
+    
+mullvadvpn_install() {
     echo -e "\n $greenplus Installing MullvadVPN \n"
+    rm MullvadVPN*.deb
     wget --content-disposition https://mullvad.net/download/app/deb/latest
     sudo apt install -y ./MullvadVPN-*_amd64.deb
     sudo rm Mullvad*
     echo -e "\n $greenplus MullvadVPN install complete \n"
+    }
 
+brave_install() {
     echo -e "\n $greenplus Installing BraveBrowser \n"
     sudo apt install apt-transport-https curl
     sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -99,7 +103,9 @@ setup(){
     sudo apt update
     sudo apt install brave-browser
     echo -e "\n $greenplus BraveBrowser install complete \n"
+    }
 
+flatpak_install() {
     echo -e "\n $greenplus Installing Flatpak, Bitwarden, Tor Browser, and Onion Share \n"
     sleep 2
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
@@ -108,20 +114,26 @@ setup(){
     flatpak install -y flathub org.onionshare.OnionShare                                      # Install Onion Share
     echo -e "\n $greenplus Complete \n"
     sleep 2
+    }
 
+joplin_install() {
     echo -e "\n $greenplus Installing Joplin \n"
     sleep 2
     wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
     echo -e "\n $greenplus Complete \n"
     sleep 2
+    }
 
+yubico_install() {
     echo -e "\n $greenplus Installing Yubico Authenticator \n"
     sudo add-apt-repository -y ppa:yubico/stable
     sudo apt update
     sudo apt install -y yubioath-desktop
     echo -e "\n $greenplus yubico install complete \n"
     sleep 2
+    }
 
+sublime_install() {
     echo -e "\n $greenplus Tnstalling sublime text editor \n"
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     sudo apt install -y apt-transport-https
@@ -130,7 +142,9 @@ setup(){
     sudo apt install -y sublime-text
     echo -e "\n $greenplus sublime install complete \n"
     sleep 2
+    }
 
+veracrypt_install() {
     echo -e "\n $greenplus Tnstalling Veracrypt \n"
     sleep 2
     sudo apt --fix-broken install
@@ -139,7 +153,9 @@ setup(){
     rm veracrypt*
     echo -e "\n $greenplus Veracrypt install complete \n"
     sleep 2
+    }
 
+cryptomator_install() {
     echo -e "\n $greenplus Installing Cryptomator \n"
     sleep 2
     sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
@@ -147,7 +163,9 @@ setup(){
     sudo apt install -y cryptomator
     echo -e "\n $greenplus Cryptomator install complete \n"
     sleep 2
+    }
 
+element_install() {
     echo -e "\n $greenplus Installing Element \n"
     sleep 2
     sudo apt install -y wget apt-transport-https
@@ -157,7 +175,9 @@ setup(){
     sudo apt -y install element-desktop
     echo -e "\n $greenplus Element install complete \n"
     sleep 2
+    }
 
+signal_install() {
     echo -e "\n $greenplus Installing Signal \n"
     sleep 2
     wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
@@ -167,14 +187,19 @@ setup(){
     sudo apt update && sudo apt -y install signal-desktop
     echo -e "\n $greenplus Signal install complete \n"
     sleep 2
+    }
 
+discord_install() {
     echo -e "\n $greenplus Installing Discord \n"
+    rm Discord.deb
     wget -O ~/Discord.deb "https://discord.com/api/download?platform=linux&format=deb"
     sudo dpkg -i ~/Discord.deb;sudo apt install -f
     sudo rm ~/Discord.deb
     echo -e "\n $greenplus Discord install complete \n"
     sleep 2
+    }
 
+fusuma_install() {
     echo -e "\n $greenplus Tnstalling Fusuma \n"
     sleep 2
     sudo gpasswd -a $USER input
@@ -184,7 +209,9 @@ setup(){
     mkdir /home/$USER/.config/fusuma
     echo -e "\n $greenplus fusuma complete \n"
     sleep 2
+    }
 
+oh-my-zsh_install() {
     echo -e "\n $greenplus Installing Oh-My-ZSH \n"
     sleep 2
     mkdir -p ~/.local/share/fonts
@@ -192,7 +219,10 @@ setup(){
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     echo -e "\n $greenplus Oh-My-ZSH Installed \n"
+    sleep 2
+    }    
 
+dotfile_setup() {
     echo -e "\n Setting up DotFiles \n"
     git clone https://github.com/Th4ntis/dotfiles.git ~/dotfiles
     cp ~/dotfiles/zsh/.zshrc ~/
@@ -202,21 +232,27 @@ setup(){
     cp -r ~/dotfiles/fusuma/fusuma ~/.config/
     echo -e "\n DotFiles done \n"
     sleep 2
+    }
 
+tmux-plugins_install() {
     echo -e "\n Tmux Plugins \n"
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     git clone https://github.com/tmux-plugins/tmux-battery ~/.tmux/plugins/tmux-battery
     git clone https://github.com/tmux-plugins/tmux-cpu ~/.tmux/plugins/tmux-cpu
     git clone https://github.com/tmux-plugins/tmux-yank ~/.tmux/plugins/tmux-yank
     echo -e "\n Tmux Plugins Complete \n"
+    sleep 2
+    }
 
+cleanup() {
     echo -e "\n Cleaning up... \n"
     rm -r $HOME/Public
     rm -r $HOME/Templates
     rm -r $HOME/Videos
     sudo rm -r $HOME/dotfiles
-    echo -e "\n Finied! \n"
+    echo -e "\n Cleanup finshed! \n"
     sleep 2
+    }
 
     clear
     echo -e "All finished! Rebooting to apply all changes in 10 seconds... \n"
@@ -229,6 +265,5 @@ asciiart=$(base64 -d <<< "IF9fX19fICAgICAgICBfX19fXyBfX19fXyAKfCAgICAgfF8gXyAgIH
 
 echo -e "$asciiart"
 echo -e "My Buntu Script \n"
-echo -e "\n **THIS SCRIPT DOES REQUIRE MINOR INPUT FROM THE USER**"
 
 check_de
