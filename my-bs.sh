@@ -73,6 +73,7 @@ install() {
     tmux-plugins_install
     dotfile_setup
     cleanup
+    finish
     }
 
 timeshift_install() {
@@ -251,6 +252,7 @@ cleanup() {
     sleep 2
     }
 
+finish() {
     clear
     echo -e "All finished! Rebooting to apply all changes in 10 seconds... \n"
     sleep 10
