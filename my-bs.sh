@@ -11,51 +11,12 @@ greenplus='\e[1;33m[++]\e[0m'
 # variables moved from local to global
     detected_env=""
 
-check_de() {
-    detect_xfce=$(ps -e | grep -c -E '^.* xfce4-session$')
-    detect_gnome=$(ps -e | grep -c -E '^.* gnome-session-*')
-    detect_kde=$(ps -e | grep -c -E '^.* kded5$')
-    [ $detect_gnome -ne 0 ] && detected_env="GNOME"
-    [ $detect_xfce -ne 0 ] && detected_env="XFCE"
-    [ $detect_kde -ne 0 ] && detected_env="KDE"
-    echo -e "\n  $greenplus Detected Environment: $detected_env"
-    sleep 3
-    [ $detected_env = "GNOME" ] && gnome_de
-    [ $detected_env = "XFCE" ] && xfce_de
-    [ $detected_env = "KDE" ] && kde_de
-    [ $detected_env = "" ] && echo -e "\n  $redexclaim Unable to determine desktop environment"
-    }
-
-gnome_de () {
-    # WIP
-     install
-    }
-
-xfce_de () {
-    # WIP
-    install
-    }
-
-kde_de () {
-    # Configures KDE shortcuts
-    sed -i 's/Alt+F4/Alt+Q/' ~/.config/kglobalshortcutsrc
-#    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
-#    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
-    cat >> ~/.config/kglobalshortcutsrc << EOF
-[terminator.desktop]
-_k_friendly_name=Launch Terminator
-_launch=Alt+Return\t,none,Launch Terminator
-EOF
-    echo -e "\n $greenplus KDE config complete \n"
-    sleep 2
-    install
-    }
-
 install() {
     sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
     echo -e "\n $greenplus Installing list of tools through apt \n"
     sudo apt install -y linux-headers-$(uname -r) adb acpi bleachbit build-essential cifs-utils clementine cups curl dialog dkms fastboot flameshot flatpak fonts-powerline gimp git gnome-software-plugin-flatpak gparted hexchat htop idle3 ipcalc krita libreoffice lm-sensors make network-manager-gnome network-manager-openvpn network-manager-pptp network-manager-strongswan network-manager-vpnc net-tools nload nmap openvpn openssh-server pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim wireshark zsh
     echo -e "\n $greenplus Complete! \n"
+    check_de
     timeshift_install
     mullvadvpn_install
     brave_install
@@ -74,6 +35,43 @@ install() {
     dotfile_setup
     cleanup
     finish
+    }
+
+check_de() {
+    detect_xfce=$(ps -e | grep -c -E '^.* xfce4-session$')
+    detect_gnome=$(ps -e | grep -c -E '^.* gnome-session-*')
+    detect_kde=$(ps -e | grep -c -E '^.* kded5$')
+    [ $detect_gnome -ne 0 ] && detected_env="GNOME"
+    [ $detect_xfce -ne 0 ] && detected_env="XFCE"
+    [ $detect_kde -ne 0 ] && detected_env="KDE"
+    echo -e "\n  $greenplus Detected Environment: $detected_env"
+    sleep 3
+    [ $detected_env = "GNOME" ] && gnome_de
+    [ $detected_env = "XFCE" ] && xfce_de
+    [ $detected_env = "KDE" ] && kde_de
+    [ $detected_env = "" ] && echo -e "\n  $redexclaim Unable to determine desktop environment"
+    }
+
+gnome_de () {
+    # WIP
+    }
+
+xfce_de () {
+    # WIP
+    }
+
+kde_de () {
+    # Configures KDE shortcuts
+    sed -i 's/Alt+F4/Alt+Q/' ~/.config/kglobalshortcutsrc
+#    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
+#    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
+    cat >> ~/.config/kglobalshortcutsrc << EOF
+[terminator.desktop]
+_k_friendly_name=Launch Terminator
+_launch=Alt+Return\t,none,Launch Terminator
+EOF
+    echo -e "\n $greenplus KDE config complete \n"
+    sleep 2
     }
 
 timeshift_install() {
@@ -265,4 +263,4 @@ asciiart=$(base64 -d <<< "IF9fX19fICAgICAgICBfX19fXyBfX19fXyAKfCAgICAgfF8gXyAgIH
 echo -e "$asciiart"
 echo -e "My Buntu Script \n"
 
-check_de
+install
