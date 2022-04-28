@@ -18,7 +18,6 @@ install() {
     echo -e "\n $greenplus Complete! \n"
     check_de
     timeshift_install
-    mullvadvpn_install
     brave_install
     flatpak_install
     joplin_install
@@ -81,15 +80,6 @@ timeshift_install() {
     sudo apt install -y timeshift
     echo -e "\n $greenplus timeshift install complete \n"
     }
-    
-mullvadvpn_install() {
-    echo -e "\n $greenplus Installing MullvadVPN \n"
-    rm MullvadVPN*.deb
-    wget --content-disposition https://mullvad.net/download/app/deb/latest
-    sudo apt install -y ./MullvadVPN-*_amd64.deb
-    sudo rm Mullvad*
-    echo -e "\n $greenplus MullvadVPN install complete \n"
-    }
 
 brave_install() {
     echo -e "\n $greenplus Installing BraveBrowser \n"
@@ -107,7 +97,6 @@ flatpak_install() {
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
     flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
     flatpak install -y flathub com.github.micahflee.torbrowser-launcher                       # Installs Tor Browser
-    flatpak install -y flathub org.onionshare.OnionShare                                      # Install Onion Share
     echo -e "\n $greenplus Complete \n"
     sleep 2
     }
