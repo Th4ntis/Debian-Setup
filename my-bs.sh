@@ -14,7 +14,7 @@ greenplus='\e[1;33m[++]\e[0m'
 install() {
     sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
     echo -e "\n $greenplus Installing list of tools through apt \n"
-    sudo apt install -y linux-headers-$(uname -r) adb acpi bleachbit build-essential cifs-utils clementine cups curl dialog dkms fastboot flameshot flatpak fonts-powerline gimp git gnome-software-plugin-flatpak gparted hexchat htop idle3 ipcalc krita libreoffice lm-sensors make network-manager-gnome network-manager-openvpn network-manager-pptp network-manager-strongswan network-manager-vpnc net-tools nload nmap openvpn openssh-server pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim wireshark zsh
+    sudo apt install -y linux-headers-$(uname -r) adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms fastboot flameshot flatpak fonts-powerline gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim wireshark xsel zsh
     echo -e "\n $greenplus Complete! \n"
     check_de
     timeshift_install
@@ -212,8 +212,6 @@ dotfile_setup() {
     git clone https://github.com/Th4ntis/dotfiles.git ~/dotfiles
     cp ~/dotfiles/zsh/.zshrc ~/
     cp ~/dotfiles/tmux/.tmux.conf ~/
-    cp ~/dotfiles/vim/.vimrc ~/
-    cp -r ~/dotfiles/vim/.vim ~/
     cp -r ~/dotfiles/fusuma/fusuma ~/.config/
     echo -e "\n DotFiles done \n"
     sleep 2
@@ -231,9 +229,6 @@ tmux-plugins_install() {
 
 cleanup() {
     echo -e "\n Cleaning up... \n"
-    rm -r $HOME/Public
-    rm -r $HOME/Templates
-    rm -r $HOME/Videos
     sudo rm -r $HOME/dotfiles
     echo -e "\n Cleanup finshed! \n"
     sleep 2
