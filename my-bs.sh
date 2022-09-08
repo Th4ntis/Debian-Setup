@@ -73,14 +73,6 @@ EOF
     sleep 2
     }
 
-timeshift_install() {
-    echo -e "\n $greenplus Installing timeshift \n"
-    sudo add-apt-repository -y ppa:teejee2008/timeshift
-    sudo apt update
-    sudo apt install -y timeshift
-    echo -e "\n $greenplus timeshift install complete \n"
-    }
-
 brave_install() {
     echo -e "\n $greenplus Installing BraveBrowser \n"
     sudo apt install apt-transport-https curl
@@ -94,9 +86,9 @@ brave_install() {
 flatpak_install() {
     echo -e "\n $greenplus Installing Flatpak, Bitwarden, Tor Browser, and Onion Share \n"
     sleep 2
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
-    flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
-    flatpak install -y flathub com.github.micahflee.torbrowser-launcher                       # Installs Tor Browser
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
+    sudo flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
+    sudo flatpak install -y flathub com.github.micahflee.torbrowser-launcher                       # Installs Tor Browser
     echo -e "\n $greenplus Complete \n"
     sleep 2
     }
@@ -120,7 +112,8 @@ yubico_install() {
 
 sublime_install() {
     echo -e "\n $greenplus Tnstalling sublime text editor \n"
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sublimetext-keyring.gpg
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg
+    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update
     sudo apt install -y sublime-text
     echo -e "\n $greenplus sublime install complete \n"
@@ -167,7 +160,7 @@ signal_install() {
     cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
     sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-    sudo apt update && sudo apt -y install signal-desktop
+    sudo apt update && sudo apt install -y signal-desktop
     echo -e "\n $greenplus Signal install complete \n"
     sleep 2
     }
