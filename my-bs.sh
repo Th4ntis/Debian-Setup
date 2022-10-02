@@ -19,6 +19,7 @@ install() {
     check_de
     timeshift_install
     brave_install
+    librewolf_install
     flatpak_install
     joplin_install
     yubico_install
@@ -83,11 +84,33 @@ brave_install() {
     echo -e "\n $greenplus BraveBrowser install complete \n"
     }
 
+librewolf_install() {
+    distro=$(if echo "jammy" | grep -q " $(lsb_release -sc) "; then echo $(lsb_release -sc); else echo focal; fi)
+    wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
+    
+    sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
+    Types: deb
+    URIs: https://deb.librewolf.net
+    Suites: $distro
+    Components: main
+    Architectures: amd64
+    Signed-By: /usr/share/keyrings/librewolf.gpg
+    EOF
+
+    sudo apt update && sudo apt install librewolf -y
+    }
+    
+protonvpn_install() {
+    wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3_all.deb
+    sudo dpkg -i protonvpn-stable-release_1.0.3_all.deb;sudo apt install -f
+    sudo apt install gnome-shell-extension-appindicator gir1.2-appindicator3-0.1
+    }
+
 flatpak_install() {
     echo -e "\n $greenplus Installing Flatpak, Bitwarden, Tor Browser, and Onion Share \n"
     sleep 2
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
-    sudo flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
+ #   sudo flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
     sudo flatpak install -y flathub com.github.micahflee.torbrowser-launcher                       # Installs Tor Browser
     echo -e "\n $greenplus Complete \n"
     sleep 2
@@ -101,14 +124,14 @@ joplin_install() {
     sleep 2
     }
 
-yubico_install() {
-    echo -e "\n $greenplus Installing Yubico Authenticator \n"
-    sudo add-apt-repository -y ppa:yubico/stable
-    sudo apt update
-    sudo apt install -y yubioath-desktop
-    echo -e "\n $greenplus yubico install complete \n"
-    sleep 2
-    }
+#yubico_install() {
+#    echo -e "\n $greenplus Installing Yubico Authenticator \n"
+#    sudo add-apt-repository -y ppa:yubico/stable
+#    sudo apt update
+#    sudo apt install -y yubioath-desktop
+#    echo -e "\n $greenplus yubico install complete \n"
+#    sleep 2
+#    }
 
 sublime_install() {
     echo -e "\n $greenplus Tnstalling sublime text editor \n"
@@ -120,38 +143,38 @@ sublime_install() {
     sleep 2
     }
 
-veracrypt_install() {
-    echo -e "\n $greenplus Tnstalling Veracrypt \n"
-    sleep 2
-    sudo apt --fix-broken install
-    wget https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb
-    sudo dpkg -i veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb; sudo apt -y install -f
-    rm veracrypt*
-    echo -e "\n $greenplus Veracrypt install complete \n"
-    sleep 2
-    }
+#veracrypt_install() {
+#    echo -e "\n $greenplus Tnstalling Veracrypt \n"
+#    sleep 2
+#    sudo apt --fix-broken install
+#    wget https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb
+#    sudo dpkg -i veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb; sudo apt -y install -f
+#    rm veracrypt*
+#    echo -e "\n $greenplus Veracrypt install complete \n"
+#    sleep 2
+#    }
 
-cryptomator_install() {
-    echo -e "\n $greenplus Installing Cryptomator \n"
-    sleep 2
-    sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
-    sudo apt update
-    sudo apt install -y cryptomator
-    echo -e "\n $greenplus Cryptomator install complete \n"
-    sleep 2
-    }
+#cryptomator_install() {
+#    echo -e "\n $greenplus Installing Cryptomator \n"
+#    sleep 2
+#    sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
+#    sudo apt update
+#    sudo apt install -y cryptomator
+#    echo -e "\n $greenplus Cryptomator install complete \n"
+#    sleep 2
+#    }
 
-element_install() {
-    echo -e "\n $greenplus Installing Element \n"
-    sleep 2
-    sudo apt install -y wget apt-transport-https
-    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
-    sudo apt update
-    sudo apt -y install element-desktop
-    echo -e "\n $greenplus Element install complete \n"
-    sleep 2
-    }
+#element_install() {
+#    echo -e "\n $greenplus Installing Element \n"
+#    sleep 2
+#    sudo apt install -y wget apt-transport-https
+#    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
+#    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
+#    sudo apt update
+#    sudo apt -y install element-desktop
+#    echo -e "\n $greenplus Element install complete \n"
+#    sleep 2
+#    }
 
 signal_install() {
     echo -e "\n $greenplus Installing Signal \n"
@@ -159,8 +182,8 @@ signal_install() {
     wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
     cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-    sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-    sudo apt update && sudo apt install -y signal-desktop
+  sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+    sudo apt update && sudo apt install signal-desktop
     echo -e "\n $greenplus Signal install complete \n"
     sleep 2
     }
