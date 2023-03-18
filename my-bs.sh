@@ -14,7 +14,7 @@ greenplus='\e[1;33m[++]\e[0m'
 install() {
     sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
     echo -e "\n $greenplus Installing list of tools through apt \n"
-    sudo apt install -y linux-headers-$(uname -r) adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-powerline fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim virtualbox virtualbox-dkms virtualbox-ext-pack wireshark xsel zsh
+    sudo apt install -y linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-powerline fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim virtualbox virtualbox-dkms virtualbox-ext-pack wireshark xsel zsh
     echo -e "\n $greenplus Complete! \n"
     check_de
     timeshift_install
@@ -85,9 +85,12 @@ brave_install() {
     }
 
 librewolf_install() {
-    distro=$(if echo "jammy" | grep -q " $(lsb_release -sc) "; then echo $(lsb_release -sc); else echo focal; fi)
+    sudo apt update && sudo apt install -y wget gnupg lsb-release apt-transport-https ca-certificates
+
+    distro=$(if echo " una vanessa focal jammy bullseye vera uma" | grep -q " $(lsb_release -sc) "; then echo $(lsb_release -sc); else echo focal; fi)
+
     wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
-    
+
     sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
     Types: deb
     URIs: https://deb.librewolf.net
@@ -96,7 +99,7 @@ librewolf_install() {
     Architectures: amd64
     Signed-By: /usr/share/keyrings/librewolf.gpg
     EOF
-
+    
     sudo apt update && sudo apt install librewolf -y
     }
     
@@ -124,57 +127,47 @@ joplin_install() {
     sleep 2
     }
 
-#yubico_install() {
-#    echo -e "\n $greenplus Installing Yubico Authenticator \n"
-#    sudo add-apt-repository -y ppa:yubico/stable
-#    sudo apt update
-#    sudo apt install -y yubioath-desktop
-#    echo -e "\n $greenplus yubico install complete \n"
-#    sleep 2
-#    }
-
 sublime_install() {
     echo -e "\n $greenplus Tnstalling sublime text editor \n"
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt update
-    sudo apt install -y sublime-text
+    sudo apt update && sudo apt install -y sublime-text
     echo -e "\n $greenplus sublime install complete \n"
     sleep 2
     }
 
-#veracrypt_install() {
-#    echo -e "\n $greenplus Tnstalling Veracrypt \n"
-#    sleep 2
-#    sudo apt --fix-broken install
-#    wget https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb
-#    sudo dpkg -i veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb; sudo apt -y install -f
-#    rm veracrypt*
-#    echo -e "\n $greenplus Veracrypt install complete \n"
-#    sleep 2
-#    }
+veracrypt_install() {
+    echo -e "\n $greenplus Tnstalling Veracrypt \n"
+    sleep 2
+    sudo apt --fix-broken install
+    wget -O ~/veracrypt.deb https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Ubuntu-22.04-amd64.deb
+    sudo dpkg -i veracrypt.deb; sudo apt -y install -f
+    rm ~/veracrypt.deb
+    echo -e "\n $greenplus Veracrypt install complete \n"
+    sleep 2
+    }
 
-#cryptomator_install() {
-#    echo -e "\n $greenplus Installing Cryptomator \n"
-#    sleep 2
-#    sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
-#    sudo apt update
-#    sudo apt install -y cryptomator
-#    echo -e "\n $greenplus Cryptomator install complete \n"
-#    sleep 2
-#    }
+cryptomator_install() {
+    echo -e "\n $greenplus Installing Cryptomator \n"
+    sleep 2
+    sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
+    sudo apt update
+    sudo apt install -y cryptomator
+    echo -e "\n $greenplus Cryptomator install complete \n"
+    sleep 2
+    }
 
-#element_install() {
-#    echo -e "\n $greenplus Installing Element \n"
-#    sleep 2
-#    sudo apt install -y wget apt-transport-https
-#    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
-#    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
-#    sudo apt update
-#    sudo apt -y install element-desktop
-#    echo -e "\n $greenplus Element install complete \n"
-#    sleep 2
-#    }
+element_install() {
+    echo -e "\n $greenplus Installing Element \n"
+    sleep 2
+    sudo apt install -y wget apt-transport-https
+    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
+    sudo apt update
+    sudo apt -y install element-desktop
+    echo -e "\n $greenplus Element install complete \n"
+    sleep 2
+    }
 
 signal_install() {
     echo -e "\n $greenplus Installing Signal \n"
@@ -216,7 +209,8 @@ oh-my-zsh_install() {
     mkdir -p ~/.local/share/fonts
     cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
+    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
     echo -e "\n $greenplus Oh-My-ZSH Installed \n"
     sleep 2
     }    
