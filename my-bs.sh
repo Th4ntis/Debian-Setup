@@ -17,14 +17,11 @@ install() {
     sudo apt install -y linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-powerline fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim virtualbox virtualbox-dkms virtualbox-ext-pack wireshark xsel zsh
     echo -e "\n $greenplus Complete! \n"
     check_de
-    timeshift_install
-    brave_install
+    remove_snap
+    yubikey_setup
     librewolf_install
-    flatpak_install
     joplin_install
-    yubico_install
     sublime_install
-    veracrypt_install
     cryptomator_install
     element_install
     signal_install
@@ -63,8 +60,8 @@ xfce_de () {
 kde_de () {
     # Configures KDE shortcuts
     sed -i 's/Alt+F4/Alt+Q/' ~/.config/kglobalshortcutsrc
-#    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
-#    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
+    sed -i 's/Meta+Ctrl+Right/Alt+Right/' ~/.config/kglobalshortcutsrc
+    sed -i 's/Meta+Ctrl+Left/Alt+Left/' ~/.config/kglobalshortcutsrc
     cat >> ~/.config/kglobalshortcutsrc << EOF
 [terminator.desktop]
 _k_friendly_name=Launch Terminator
@@ -74,13 +71,31 @@ EOF
     sleep 2
     }
 
-brave_install() {
+remove_snap() {
+    sudo snap remove firefox
+    sudo snap remove gtk-common-themes
+    sudo snap remove gnome-3-28-2004
+    sudo snap remove core20
+    sudo snap remove bare
+    sudo snap remove snap-store
+    sudo snap remove snapd
+    sudo rm -rf /var/cache/snapd/
+    sudo apt autoremove --purge snapd
+    sudo rm -rf ~/snap
+    sudo tee /etc/apt/preferences.d/firefox-snap-pref << EOF > /dev/null
+    Package: firefox*
+    Pin: release o=Ubuntu*
+    Pin-Priority: -1
+    EOF
+    sudo add-apt-repository ppa:mozillateam/ppa
+    sudo apt update && sudo apt install firefox -y
+    }
+
+yubikey_setup() {
     echo -e "\n $greenplus Installing BraveBrowser \n"
-    sudo apt install apt-transport-https curl
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-    sudo apt update
-    sudo apt install brave-browser
+    sudo apt install pcscd
+    sudo systemctl start pcscd
+    sudo systemctl enable pcscd
     echo -e "\n $greenplus BraveBrowser install complete \n"
     }
 
@@ -109,16 +124,6 @@ protonvpn_install() {
     sudo apt install gnome-shell-extension-appindicator gir1.2-appindicator3-0.1
     }
 
-flatpak_install() {
-    echo -e "\n $greenplus Installing Flatpak, Bitwarden, Tor Browser, and Onion Share \n"
-    sleep 2
-    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # Installs Flatpak plugin and adds Flathub Repo
- #   sudo flatpak install -y flathub com.bitwarden.desktop                                          # Install Bitwarden Password Manager
-    sudo flatpak install -y flathub com.github.micahflee.torbrowser-launcher                       # Installs Tor Browser
-    echo -e "\n $greenplus Complete \n"
-    sleep 2
-    }
-
 joplin_install() {
     echo -e "\n $greenplus Installing Joplin \n"
     sleep 2
@@ -133,17 +138,6 @@ sublime_install() {
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update && sudo apt install -y sublime-text
     echo -e "\n $greenplus sublime install complete \n"
-    sleep 2
-    }
-
-veracrypt_install() {
-    echo -e "\n $greenplus Tnstalling Veracrypt \n"
-    sleep 2
-    sudo apt --fix-broken install
-    wget -O ~/veracrypt.deb https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Ubuntu-22.04-amd64.deb
-    sudo dpkg -i veracrypt.deb; sudo apt -y install -f
-    rm ~/veracrypt.deb
-    echo -e "\n $greenplus Veracrypt install complete \n"
     sleep 2
     }
 
