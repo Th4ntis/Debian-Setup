@@ -21,11 +21,13 @@ install() {
     yubikey_setup
     librewolf_install
     joplin_install
-    sublime_install
     cryptomator_install
+    chrome_install
+    code_install
     element_install
     signal_install
     discord_install
+    obs_install
     fusuma_install
     oh-my-zsh_install
     tmux-plugins_install
@@ -92,11 +94,11 @@ remove_snap() {
     }
 
 yubikey_setup() {
-    echo -e "\n $greenplus Installing BraveBrowser \n"
+    echo -e "\n $greenplus Installing pcsd for Yubikey \n"
     sudo apt install pcscd
     sudo systemctl start pcscd
     sudo systemctl enable pcscd
-    echo -e "\n $greenplus BraveBrowser install complete \n"
+    echo -e "\n $greenplus Yubikey setup complete \n"
     }
 
 librewolf_install() {
@@ -119,9 +121,10 @@ librewolf_install() {
     }
     
 protonvpn_install() {
-    wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3_all.deb
-    sudo dpkg -i protonvpn-stable-release_1.0.3_all.deb;sudo apt install -f
+    wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb
+    sudo dpkg -i protonvpn-stable-release_1.0.3-2_all.deb;sudo apt install -f
     sudo apt install gnome-shell-extension-appindicator gir1.2-appindicator3-0.1
+    rm protonvpn-stable-release_1.0.3-2_all.deb
     }
 
 joplin_install() {
@@ -129,15 +132,6 @@ joplin_install() {
     sleep 2
     wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
     echo -e "\n $greenplus Complete \n"
-    sleep 2
-    }
-
-sublime_install() {
-    echo -e "\n $greenplus Tnstalling sublime text editor \n"
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
-    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt update && sudo apt install -y sublime-text
-    echo -e "\n $greenplus sublime install complete \n"
     sleep 2
     }
 
@@ -151,6 +145,21 @@ cryptomator_install() {
     sleep 2
     }
 
+chrome_install() {
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+    rm google-chrome-stable_current_amd64.deb
+    }
+
+code_install() {
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    rm -f packages.microsoft.gpg
+    sudo apt update -y
+    sudo apt install code -y
+    }
+    
 element_install() {
     echo -e "\n $greenplus Installing Element \n"
     sleep 2
@@ -167,9 +176,9 @@ signal_install() {
     echo -e "\n $greenplus Installing Signal \n"
     sleep 2
     wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-    cat signal-desktop-keyring.gpg | sudo tee -a /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+    cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-  sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+  sudo tee /etc/apt/sources.list.d/signal-xenial.list
     sudo apt update && sudo apt install signal-desktop
     echo -e "\n $greenplus Signal install complete \n"
     sleep 2
@@ -183,6 +192,12 @@ discord_install() {
     sudo rm ~/Discord.deb
     echo -e "\n $greenplus Discord install complete \n"
     sleep 2
+    }
+
+obs_install() {
+    sudo add-apt-repository ppa:obsproject/obs-studio
+    sudo apt update
+    sudo apt install ffmpeg obs-studio
     }
 
 fusuma_install() {
