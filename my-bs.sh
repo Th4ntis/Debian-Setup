@@ -116,13 +116,6 @@ EOF
     sudo apt update && sudo apt install librewolf -y
     }
     
-protonvpn_install() {
-    wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb
-    sudo dpkg -i protonvpn-stable-release_1.0.3-2_all.deb;sudo apt install -f
-    sudo apt install gnome-shell-extension-appindicator gir1.2-appindicator3-0.1
-    rm protonvpn-stable-release_1.0.3-2_all.deb
-    }
-
 joplin_install() {
     echo -e "\n $greenplus Installing Joplin \n"
     sleep 2
@@ -152,8 +145,7 @@ code_install() {
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
     rm -f packages.microsoft.gpg
-    sudo apt update -y
-    sudo apt install code -y
+    sudo apt update && sudo apt install code -y
     }
     
 element_install() {
@@ -162,8 +154,7 @@ element_install() {
     sudo apt install -y wget apt-transport-https
     sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
-    sudo apt update
-    sudo apt -y install element-desktop
+    sudo apt update && sudo apt install -y element-desktop
     echo -e "\n $greenplus Element install complete \n"
     sleep 2
     }
@@ -192,8 +183,7 @@ discord_install() {
 
 obs_install() {
     sudo add-apt-repository ppa:obsproject/obs-studio
-    sudo apt update
-    sudo apt install ffmpeg obs-studio
+    sudo apt update && sudo apt install -y ffmpeg obs-studio
     }
 
 fusuma_install() {
