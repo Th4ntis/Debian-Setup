@@ -128,8 +128,7 @@ cryptomator_install() {
     echo -e "\n $greenplus Installing Cryptomator \n"
     sleep 2
     sudo add-apt-repository ppa:sebastian-stenzel/cryptomator
-    sudo apt update
-    sudo apt install -y cryptomator
+    sudo apt update && sudo apt install -y cryptomator
     echo -e "\n $greenplus Cryptomator install complete \n"
     sleep 2
     }
