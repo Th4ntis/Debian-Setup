@@ -24,8 +24,6 @@ install() {
     cryptomator_install
     chrome_install
     code_install
-    element_install
-    signal_install
     discord_install
     obs_install
     fusuma_install
@@ -147,29 +145,6 @@ code_install() {
     sudo apt update && sudo apt install code -y
     }
     
-element_install() {
-    echo -e "\n $greenplus Installing Element \n"
-    sleep 2
-    sudo apt install -y wget apt-transport-https
-    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main" | sudo tee /etc/apt/sources.list.d/riot-im.list
-    sudo apt update && sudo apt install -y element-desktop
-    echo -e "\n $greenplus Element install complete \n"
-    sleep 2
-    }
-
-signal_install() {
-    echo -e "\n $greenplus Installing Signal \n"
-    sleep 2
-    wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-    cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-  sudo tee /etc/apt/sources.list.d/signal-xenial.list
-    sudo apt update && sudo apt install signal-desktop
-    echo -e "\n $greenplus Signal install complete \n"
-    sleep 2
-    }
-
 discord_install() {
     echo -e "\n $greenplus Installing Discord \n"
     rm Discord.deb
@@ -200,8 +175,6 @@ fusuma_install() {
 oh-my-zsh_install() {
     echo -e "\n $greenplus Installing Oh-My-ZSH \n"
     sleep 2
-    mkdir -p ~/.local/share/fonts
-    cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
     echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
