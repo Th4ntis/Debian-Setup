@@ -96,6 +96,8 @@ yubikey_setup() {
     sudo apt install pcscd
     sudo systemctl start pcscd
     sudo systemctl enable pcscd
+    sudo add-apt-repository ppa:yubico/stable && sudo apt update
+    sudo apt install -y yubikey-personalization-gui libpam-yubico libpam-u2f yubikey-manager yubioath-desktop
     echo -e "\n $greenplus Yubikey setup complete \n"
     }
 
