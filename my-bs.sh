@@ -15,6 +15,7 @@ install() {
     sudo apt -y update && sudo apt -y upgrade && sudo apt -y autoremove
     echo -e "\n $greenplus Installing list of tools through apt \n"
     sudo apt install -y linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-powerline fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pssh python3 python3-pip python3-setuptools python3-venv screen steam terminator thunderbird tmux ttf-mscorefonts-installer upower vim virtualbox virtualbox-dkms virtualbox-ext-pack wireshark xsel zsh
+    sudo usermod -a -G wireshark $USER
     echo -e "\n $greenplus Complete! \n"
     check_de
     remove_snap
