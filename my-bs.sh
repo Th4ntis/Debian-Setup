@@ -191,6 +191,7 @@ dotfile_setup() {
     cp ~/dotfiles/zsh/.zshrc ~/
     cp ~/dotfiles/tmux/.tmux.conf ~/
     cp -r ~/dotfiles/fusuma/fusuma ~/.config/
+    cp -r ~/dotfiles/terminator/config ~/.config/terminator/
     echo -e "\n DotFiles done \n"
     sleep 2
     }
