@@ -19,11 +19,13 @@ install() {
     echo -e "\n $greenplus Complete! \n"
     remove_snap
     yubikey_setup
+    protonvpn_install
     librewolf_install
     joplin_install
     cryptomator_install
     chrome_install
     code_install
+    signal_install
     discord_install
     obs_install
     fusuma_install
@@ -62,6 +64,12 @@ yubikey_setup() {
     sudo add-apt-repository ppa:yubico/stable && sudo apt update
     sudo apt install -y yubikey-personalization-gui libpam-yubico libpam-u2f yubikey-manager yubioath-desktop
     echo -e "\n $greenplus Yubikey setup complete \n"
+    }
+
+protonvpn_install() {
+    wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb
+    sudo dpkg -i protonvpn-stable-release_1.0.3-2_all.deb
+    sudo apt update && sudo apt install -y proton-vpn-gnome-desktop
     }
 
 librewolf_install() {
@@ -109,6 +117,14 @@ code_install() {
     rm -f packages.microsoft.gpg
     sudo apt update && sudo apt install code -y
     }
+
+signal_install() {
+    wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+    cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+        sudo tee /etc/apt/sources.list.d/signal-xenial.list
+    sudo apt update && sudo apt install signal-desktop
+    {
     
 discord_install() {
     echo -e "\n $greenplus Installing Discord \n"
