@@ -164,7 +164,8 @@ echo -e "\n$green Cleaning up files/folders..."
 sudo rm ~/Discord.deb
 rm ~/Chrome.deb
 sudo rm ~/ProtonVPN.deb
-sudo rm ~/yubico-authenticator-latest-linux.tar.gz
+sudo rm ~/Yubikey.tar.gz
+sudo rm -r ~/yubico-*
 echo -e "$green Complete"
 
 echo -e "\n$green All finished! Press Enter to reboot or CTRL+C to manually reboot later."
