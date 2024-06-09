@@ -80,7 +80,7 @@ echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Librewolf..."
 sudo apt-get update > /dev/null
-sudo apt-get install -y -qq wget gnupg lsb-release apt-transport-https ca-certificates > /deb/null
+sudo apt-get install -y -qq wget gnupg lsb-release apt-transport-https ca-certificates > /dev/null
 wget -qO - https://deb.librewolf.net/keyring.gpg | sudo apt-key add -
 sudo tee /etc/apt/sources.list.d/librewolf.list << EOF
 deb [arch=amd64] https://deb.librewolf.net bullseye main
