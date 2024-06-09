@@ -7,12 +7,26 @@ dplus='\e[1;32m[++]\e[0m'
 clean
 echo -e "$(base64 -d <<< "CgogIF9fXyAgICAgIF8gICAgXyAgICAgICAgICAgICAgX19fICAgICAgXyAgICAgICAgICAgICAKIHwgICBcIF9fX3wgfF9fKF8pX18gXyBfIF8gX19fLyBfX3wgX19ffCB8XyBfICBfIF8gX18gCiB8IHwpIC8gLV8pICdfIFwgLyBfYCB8ICcgXF9fX1xfXyBcLyAtXykgIF98IHx8IHwgJ18gXAogfF9fXy9cX19ffF8uX18vX1xfXyxffF98fF98ICB8X19fL1xfX198XF9ffFxfLF98IC5fXy8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfF98ICAgCgo=")\n"
 echo -e "A script to setup my fresh debian install."
-echo -e "\n $plus This script requires the current user to be a sudo user Please enter the following, and restart for changes to take effect...:"
-echo -e "1. su"
-echo -e "2. sudo usermod -aG sudo $USER"
-echo -e "3. exit"
 
-read -p "Press enter to continue if the user is a sudo user, or CTRL+C to stop this script for you to add the user as a sudo user and relog."
+# Function to check if the user is part of the sudo group
+check_sudo_user() {
+    # Get the current username
+    USERNAME=$(whoami)
+
+    # Check if the user is part of the sudo group
+    if groups $USERNAME | grep &>/dev/null '\bsudo\b'; then
+        echo "$USERNAME is part of the sudo group. Proceeding with the rest of the script..."
+    else
+        echo "$USERNAME is not part of the sudo group. Please enter the following, and restart for changes to take effect:"
+        echo -e "1. su"
+        echo -e "2. sudo usermod -aG sudo $USER"
+        echo -e "3. sudo reboot now"
+	exit 1
+    fi
+}
+
+# Call the function to check if the user is part of the sudo group
+check_sudo_user
 
 echo -e "\n $plus Running apt update..."
 sudo apt-get update > /dev/null
