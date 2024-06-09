@@ -1,0 +1,20 @@
+# Fusuma Config File
+swipe:
+ 3:
+   left:
+       command: "xdotool key alt+Tab" # Tab to Next Windows
+   right:
+       command: "xdotool key alt+shift+Tab" # Tab to Previous Windows
+   up:
+       command: "xdotool key ctrl+F10" # Show all active windows
+#    down:
+#        command: "xdotool key X" # Does X
+ 4:
+#    left:
+#        command: "xdotool key alt+Left" # Switch to next workspace
+#    right:
+#        command: "xdotool key alt+Right" # Switch to previous workspace
+   up:
+       command: "xdotool key ctrl+F10" # Show all active windows
+#    down:
+#        command: "xdotool key X" # Does X

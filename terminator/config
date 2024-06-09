@@ -1,0 +1,26 @@
+[global_config]
+  window_state = maximise
+[keybindings]
+  split_horiz = <Primary><Shift>q
+  close_window = <Primary><Shift><Alt>F12
+  edit_window_title = <Primary><Shift><Alt>w
+[profiles]
+  [[default]]
+    background_darkness = 0.8
+    background_type = transparent
+    cursor_shape = underline
+    cursor_color = "#aaaaaa"
+    font = MesloLGS NF 11
+    foreground_color = "#00ff00"
+    show_titlebar = False
+    scrollbar_position = hidden
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
