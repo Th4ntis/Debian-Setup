@@ -164,7 +164,7 @@ for (i=0; i<Desktops.length; i++) {
     d.wallpaperPlugin = 'org.kde.image';
     d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
     d.writeConfig('Image', 'file://$wallpaper_path')
-    d.writeConfig('FillMode', 2);  // 2 is for 'Center'
+    d.writeConfig('FillMode', 6);  // 6 is for 'Center'
 }
 "
 echo -e "$green Complete"
