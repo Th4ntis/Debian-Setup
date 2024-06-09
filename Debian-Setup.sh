@@ -65,7 +65,7 @@ cp -r ~/dotfiles/tmux/tmux-cpu ~/.tmux/plugins/
 cp -r ~/dotfiles/tmux/tmux-yank ~/.tmux/plugins/
 echo -e "$dplus Copying fonts..."
 sudo mkdir /usr/share/fonts/truetype/MesloLGS
-sudo cp ~/dotfiles/fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
+sudo cp ~/dotfiles/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
 echo -e "$plus Complete"
 
 echo -e "\n$plus Performing setup and install for Yubikey..."
