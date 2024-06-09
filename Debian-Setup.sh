@@ -67,7 +67,7 @@ sudo systemctl start pcscd
 sudo systemctl enable pcscd
 wget -q https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz -O ~/Yubikey.tar.gz
 tar -xf Yubikey.tar.gz && cd ~/yubico-authenticator*
-./desktop_integration.sh install -i
+./desktop_integration.sh -i
 cd
 echo -e "$plus Complete"
 
