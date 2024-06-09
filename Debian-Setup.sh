@@ -149,16 +149,16 @@ sudo wget -O /usr/share/desktop-base/th4ntis-theme/th4ntis.png https://raw.githu
 WALLPAPER_PATH="/usr/share/backgrounds/th4ntis.png"
 PLASMA_CONFIG_DIR="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 
-sed -i -e "s|Image=.*|Image=file://$WALLPAPER_PATH|" $PLASMA_CONFIG_DIR
+# Set the wallpaper using qdbus
 qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-  "var allDesktops = desktops(); \
-   for (i=0;i<allDesktops.length;i++) { \
-       d = allDesktops[i]; \
-       d.wallpaperPlugin = 'org.kde.image'; \
-       d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General'); \
-       d.writeConfig('Image', 'file://$WALLPAPER_PATH') \
-       d.writeConfig('FillMode', 6); \
-   }"
+"var allDesktops = desktops();
+ for (i=0;i<allDesktops.length;i++) {
+     d = allDesktops[i];
+     d.wallpaperPlugin = 'org.kde.image';
+     d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
+     d.writeConfig('Image', 'file://$WALLPAPER_PATH');
+     d.writeConfig('FillMode', 6); # 6 corresponds to 'Centered' in FillMode
+ }"
 echo -e "$green Complete"
 
 echo -e "\n$green Cleaning up files/folders..."
