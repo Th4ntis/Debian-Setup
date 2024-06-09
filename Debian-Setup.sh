@@ -34,7 +34,7 @@ echo -e "$plus Complete"
 
 echo -e "\n $plus Installing tools via apt-get..."
 sudo apt-get install -y -qq linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pipx plasma-discover-backend-flatpak pssh python3 python3-pip python3-setuptools python3-venv screen terminator thunderbird tmux vim xclip xsel zsh > /dev/null
-sudo apt get install -y -qq wireshark
+sudo apt-get install -y -qq wireshark
 sudo usermod -a -G wireshark $USER
 echo -e "$plus Complete"
 
