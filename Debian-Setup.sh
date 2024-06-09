@@ -106,6 +106,9 @@ echo -e "\n$plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+echo 'if [[ -n $EXIT_ZSH_ON_START ]]; then exit; fi' >>~/.zshrc
+EXIT_ZSH_ON_START=1 zsh
+sed -i '/if \[\[ -n $EXIT_ZSH_ON_START \]\]; then exit; fi/d' ~/.zshrc
 echo -e "$plus Complete"
 
 echo -e "========= Flatpak =========="
