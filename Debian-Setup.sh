@@ -54,7 +54,7 @@ echo -e "$dplus Copying .aliases..."
 cp ~/dotfiles/zsh/.aliases ~/.aliases
 echo -e "$dplus Copying terminator config..."
 mkdir ~/.config/terminator
-cp ~/dotfiles/terminator/config ~/.config/terminator/
+cp ~/dotfiles/terminator/config ~/.config/terminator/.config
 echo -e "$dplus Copying tmux files and plugins..."
 cp ~/dotfiles/tmux/.tmux.conf ~/
 mkdir ~/.tmux
