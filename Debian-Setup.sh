@@ -96,7 +96,7 @@ echo -e "$plus Complete"
 echo -e "\n$plus Installing and setitng up Fusuma..."
 sudo gpasswd -a $USER input
 newgrp input
-sudo apt install -y -qq libinput-tools ruby xdotool > /dev/null
+sudo apt-get install -y -qq libinput-tools ruby xdotool > /dev/null
 sudo gem install fusuma
 mkdir ~/.config/fusuma
 cp -r ~/dotfiles/fusuma/config.yml ~/.config/fusuma/
