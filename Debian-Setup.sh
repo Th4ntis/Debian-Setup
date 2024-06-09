@@ -57,6 +57,7 @@ mkdir ~/.config/terminator
 cp ~/dotfiles/terminator/config ~/.config/terminator/
 echo -e "$dplus Copying tmux files and plugins..."
 cp ~/dotfiles/tmux/.tmux.conf ~/
+mkdir ~/.tmux
 mkdir ~/.tmux/plugins
 cp -r ~/dotfiles/tmux/tpm ~/.tmux/plugins/
 cp -r ~/dotfiles/tmux/tmux-battery ~/.tmux/plugins/
@@ -64,7 +65,7 @@ cp -r ~/dotfiles/tmux/tmux-cpu ~/.tmux/plugins/
 cp -r ~/dotfiles/tmux/tmux-yank ~/.tmux/plugins/
 echo -e "$dplus Copying fonts..."
 sudo mkdir /usr/share/fonts/truetype/MesloLGS
-sudo cp ~/dotfiles/*.ttg /usr/share/fonts/truetype/MesloLGS/
+sudo cp ~/dotfiles/fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
 echo -e "$plus Complete"
 
 echo -e "\n$plus Performing setup and install for Yubikey..."
@@ -72,15 +73,15 @@ sudo systemctl start pcscd
 sudo systemctl enable pcscd
 wget -q https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz -O ~/Yubikey.tar.gz
 tar -xf Yubikey.tar.gz && cd ~/yubico-authenticator*
-sudo ./desktop_integration.sh install
+sudo ./desktop_integration.sh install -i
 echo -e "$plus Complete"
 
-echo -e "\n$plus Installing ProtonVPN..."
-wget -q https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb -O ~/ProtonVPN.deb
-sudo dpkg -i ~/ProtonVPN.deb
-sudo apt-get update > /dev/null
-sudo apt-get install -y -qq proton-vpn-gnome-desktop libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator > /dev/null
-echo -e "$plus Complete"
+#echo -e "\n$plus Installing ProtonVPN..."
+#wget -q https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb -O ~/ProtonVPN.deb
+#sudo dpkg -i ~/ProtonVPN.deb
+#sudo apt-get update > /dev/null
+#sudo apt-get install -y -qq proton-vpn-gnome-desktop libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator > /dev/null
+#echo -e "$plus Complete"
 
 #echo -e "\n$plus Installing Librewolf..."
 #sudo apt-get update > /dev/null
@@ -109,7 +110,7 @@ echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Chrome..."
 wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O ~/Chrome.deb
-sudo dpkg -i ~/Chrome.deb
+sudo dpkg -i ~/Chrome.deb;sudo apt install -f
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Signal..."
@@ -118,7 +119,7 @@ cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-key
 echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
 	sudo tee /etc/apt/sources.list.d/signal-xenial.list
 sudo apt-get update > /dev/null
-sudo apt install -y -qq signal-desktop > /dev/null
+sudo apt-get install -y -qq signal-desktop > /dev/null
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Discord..."
