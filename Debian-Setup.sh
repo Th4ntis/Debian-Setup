@@ -106,12 +106,12 @@ wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_insta
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Cryptomator..."
-flatpak install -y flathub org.cryptomator.Cryptomator
+flatpak install --noninteractive -y flathub org.cryptomator.Cryptomator
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Chrome..."
 wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O ~/Chrome.deb
-sudo dpkg -i ~/Chrome.deb;sudo apt install -f
+sudo dpkg -i ~/Chrome.deb;sudo apt install -y -f
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Signal..."
@@ -125,11 +125,11 @@ echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Discord..."
 wget -q "https://discord.com/api/download?platform=linux&format=deb" -O ~/Discord.deb
-sudo dpkg -i ~/Discord.deb;sudo apt install -f
+sudo dpkg -i ~/Discord.deb;sudo apt install -y -f
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing OBS..."
-flatpak install -y flathub com.obsproject.Studio
+flatpak install --noninteractive -y flathub com.obsproject.Studio
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing and setitng up Fusuma..."
@@ -145,6 +145,7 @@ echo -e "\n$plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+exit
 echo -e "$plus Complete"
 
 echo -e "\n$plus Cleaning up files/folders..."
