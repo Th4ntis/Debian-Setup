@@ -38,7 +38,7 @@ sudo apt-get -y -qq upgrade > /dev/null
 echo -e "$green Complete"
 
 echo -e "\n$green Installing tools via apt-get..."
-sudo apt-get install -y -qq linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-liberation fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libatomic1 libu2f-udev libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pipx plasma-discover-backend-flatpak pssh python3 python3-pip python3-setuptools python3-venv screen terminator thunderbird tmux vim xclip xsel zsh > /dev/null
+sudo apt-get install -y -qq linux-headers-$(uname -r) apt-transport-https adb acpi bleachbit build-essential cifs-utils cups curl dialog dkms docker.io docker-compose fastboot flameshot flatpak fonts-liberation fswatch gimp git gnome-software-plugin-flatpak gparted htop idle3 libatomic1 libu2f-udev libreoffice lm-sensors make net-tools nload nmap openvpn openssh-server pcscd pipx plasma-discover-backend-flatpak pssh python3 python3-pip python3-setuptools python3-venv qdbus screen terminator thunderbird tmux vim xclip xsel zsh > /dev/null
 sudo apt-get install -y -qq wireshark
 sudo usermod -a -G wireshark $USER
 echo -e "$green Complete"
@@ -144,21 +144,28 @@ echo -e "Copying fusuma config..."
 cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 
 echo -e "Setting Wallapaper..."
-sudo mkdir /user/share/desktop-base/th4ntis-theme
+sudo mkdir /usr/share/desktop-base/th4ntis-theme
 sudo wget -O /usr/share/desktop-base/th4ntis-theme/th4ntis.png https://raw.githubusercontent.com/th4ntis/Debian-Setup/main/images/CyberSpider-UG-Outline.png
 WALLPAPER_PATH="/usr/share/backgrounds/th4ntis.png"
-PLASMA_CONFIG_DIR="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
+# PLASMA_CONFIG_DIR="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 
-# Set the wallpaper using qdbus
-qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-"var allDesktops = desktops();
- for (i=0;i<allDesktops.length;i++) {
-     d = allDesktops[i];
-     d.wallpaperPlugin = 'org.kde.image';
-     d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
-     d.writeConfig('Image', 'file://$WALLPAPER_PATH');
-     d.writeConfig('FillMode', 6); # 6 corresponds to 'Centered' in FillMode
- }"
+# Check if the provided file exists
+if [ ! -f "$WALLPAPER_PATH" ]; then
+    echo "File not found!"
+    exit 1
+fi
+
+# Set the wallpaper using the provided PNG file
+wallpaper_path=$(realpath "$WALLPAPER_PATH")
+qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
+var Desktops = desktops();
+for (i=0; i<Desktops.length; i++) {
+    d = Desktops[i];
+    d.wallpaperPlugin = 'org.kde.image';
+    d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
+    d.writeConfig('Image', 'file://$wallpaper_path')
+}
+"
 echo -e "$green Complete"
 
 echo -e "\n$green Cleaning up files/folders..."
