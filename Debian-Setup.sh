@@ -2,8 +2,6 @@
 
 # status indicators
 plus='\e[1;32m[+]\e[0m'
-dplus='\e[1;32m[++]\e[0m'
-seperator='\e[1;32m[==========]\e[0m'
 
 clear
 echo -e "$(base64 -d <<< "CgogIF9fXyAgICAgIF8gICAgXyAgICAgICAgICAgICAgX19fICAgICAgXyAgICAgICAgICAgICAKIHwgICBcIF9fX3wgfF9fKF8pX18gXyBfIF8gX19fLyBfX3wgX19ffCB8XyBfICBfIF8gX18gCiB8IHwpIC8gLV8pICdfIFwgLyBfYCB8ICcgXF9fX1xfXyBcLyAtXykgIF98IHx8IHwgJ18gXAogfF9fXy9cX19ffF8uX18vX1xfXyxffF98fF98ICB8X19fL1xfX198XF9ffFxfLF98IC5fXy8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfF98ICAgCgo=")\n"
@@ -99,16 +97,12 @@ newgrp input
 sudo apt-get install -y -qq libinput-tools ruby xdotool > /dev/null
 sudo gem install fusuma
 mkdir ~/.config/fusuma
-cp -r ~/dotfiles/fusuma/config.yml ~/.config/fusuma/
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-echo 'if [[ -n $EXIT_ZSH_ON_START ]]; then exit; fi' >>~/.zshrc
-EXIT_ZSH_ON_START=1 zsh
-sed -i '/if \[\[ -n $EXIT_ZSH_ON_START \]\]; then exit; fi/d' ~/.zshrc
 echo -e "$plus Complete"
 
 echo -e "========= Flatpak =========="
@@ -125,26 +119,28 @@ flatpak install --noninteractive -y flathub com.obsproject.Studio
 echo -e "$plus Complete"
 
 echo -e "========= Dotfiles/Personalization =========="
-echo -e "\n$plus Getting dotfiles..."
-git clone --quiet https://github.com/Th4ntis/dotfiles.git ~/dotfiles  > /dev/null
-echo -e "$dplus Copying .zshrc..."
-cp ~/dotfiles/zsh/.zshrc ~/
-echo -e "$dplus Copying .aliases..."
-cp ~/dotfiles/zsh/.aliases ~/.aliases
-echo -e "$dplus Copying terminator config..."
+echo -e "\n$plus Getting Debian-Setup..."
+git clone --quiet https://github.com/Th4ntis/Debian-Setup.git ~/Debian-Setup  > /dev/null
+echo -e "Copying .zshrc..."
+cp ~/Debian-Setup/zsh/.zshrc ~/
+echo -e "Copying .aliases..."
+cp ~/Debian-Setup/zsh/.aliases ~/.aliases
+echo -e "Copying terminator config..."
 mkdir ~/.config/terminator
-cp ~/dotfiles/terminator/config ~/.config/terminator/.config
-echo -e "$dplus Copying tmux files and plugins..."
-cp ~/dotfiles/tmux/.tmux.conf ~/
+cp ~/Debian-Setup/terminator/config ~/.config/terminator/config
+echo -e "Copying tmux files and plugins..."
+cp ~/Debian-Setup/tmux/.tmux.conf ~/
 mkdir ~/.tmux
 mkdir ~/.tmux/plugins
-cp -r ~/dotfiles/tmux/tpm ~/.tmux/plugins/
-cp -r ~/dotfiles/tmux/tmux-battery ~/.tmux/plugins/
-cp -r ~/dotfiles/tmux/tmux-cpu ~/.tmux/plugins/
-cp -r ~/dotfiles/tmux/tmux-yank ~/.tmux/plugins/
-echo -e "$dplus Copying fonts..."
+cp -r ~/Debian-Setup/tmux/tpm ~/.tmux/plugins/
+cp -r ~/Debian-Setup/tmux/tmux-battery ~/.tmux/plugins/
+cp -r ~/Debian-Setup/tmux/tmux-cpu ~/.tmux/plugins/
+cp -r ~/Debian-Setup/tmux/tmux-yank ~/.tmux/plugins/
+echo -e "Copying fonts..."
 sudo mkdir /usr/share/fonts/truetype/MesloLGS
-sudo cp ~/dotfiles/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
+sudo cp ~/Debian-Setup/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
+echo -e "Copying fusuma config..."
+cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 echo -e "$plus Complete"
 
 echo -e "\n$plus Cleaning up files/folders..."
