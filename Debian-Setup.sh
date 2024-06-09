@@ -111,7 +111,7 @@ echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Chrome..."
 wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O ~/Chrome.deb
-sudo dpkg -i ~/Chrome.deb;sudo apt install -y -f
+sudo dpkg -i ~/Chrome.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Signal..."
@@ -125,7 +125,7 @@ echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Discord..."
 wget -q "https://discord.com/api/download?platform=linux&format=deb" -O ~/Discord.deb
-sudo dpkg -i ~/Discord.deb;sudo apt install -y -f
+sudo dpkg -i ~/Discord.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing OBS..."
