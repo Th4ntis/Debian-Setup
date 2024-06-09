@@ -144,7 +144,8 @@ echo -e "Copying fusuma config..."
 cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 
 echo -e "Setting Wallapaper..."
-sudo wget -O /usr/share/backgrounds/th4ntis.png https://raw.githubusercontent.com/th4ntis/Debian-Setup/main/images/CyberSpider-UG-Outline.png
+sudo mkdir /user/share/desktop-base/th4ntis-theme
+sudo wget -O /usr/share/desktop-base/th4ntis-theme/th4ntis.png https://raw.githubusercontent.com/th4ntis/Debian-Setup/main/images/CyberSpider-UG-Outline.png
 WALLPAPER_PATH="/usr/share/backgrounds/th4ntis.png"
 PLASMA_CONFIG_DIR="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
 
