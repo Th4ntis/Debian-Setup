@@ -14,12 +14,6 @@ echo -e "3. exit"
 
 read -p "Press enter to continue if the user is a sudo user, or CTRL+C to stop this script for you to add the user as a sudo user and relog."
 
-# Ensure the script is run with superuser privileges
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root"
-   exit 1
-fi
-
 echo -e "\n $plus Running apt update..."
 sudo apt-get update > /dev/null
 echo -e "$plus Complete"
@@ -40,12 +34,6 @@ echo -e "$plus Complete"
 
 echo -e "\n $plus Installing flatpak..."
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-echo -e "$plus Complete"
-
-echo -e "\n $plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 echo -e "$plus Complete"
 
 echo -e "\n $plus Getting dotfiles..."
@@ -137,6 +125,12 @@ newgrp input
 sudo apt install -y -qq libinput-tools ruby xdotool > /dev/null
 sudo gem install fusuma
 mkdir /home/$USER/.config/fusuma
+echo -e "$plus Complete"
+
+echo -e "\n $plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 echo -e "$plus Complete"
 
 echo -e "\n $plus Cleaning up files/folders..."
