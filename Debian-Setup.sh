@@ -78,28 +78,22 @@ cd
 echo -e "$plus Complete"
 
 #echo -e "\n$plus Installing ProtonVPN..."
-#wget -q https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb -O ~/ProtonVPN.deb
-#sudo dpkg -i ~/ProtonVPN.deb
-#sudo apt-get update > /dev/null
-#sudo apt-get install -y -qq proton-vpn-gnome-desktop libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator > /dev/null
-#echo -e "$plus Complete"
+wget -q -O - https://repo.protonvpn.com/debian/public_key.asc | sudo apt-key add -
+echo 'deb https://repo.protonvpn.com/debian stable main' | sudo tee /etc/apt/sources.list.d/protonvpn.list
+sudo apt-get update > /dev/null
+sudo apt-get install -y -qq proton-vpn-gnome-desktop libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator > /dev/null
+echo -e "$plus Complete"
 
-#echo -e "\n$plus Installing Librewolf..."
-#sudo apt-get update > /dev/null
-#sudo apt-get install -y -qq wget gnupg lsb-release apt-transport-https ca-certificates > /deb/null
-#distro=$(if echo " una vanessa focal jammy bullseye vera uma" | grep -q " $(lsb_release -sc) "; then echo $(lsb_release -sc); else echo focal; fi)
-#wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/librewolf.gpg
-#sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
-#Types: deb
-#URIs: https://deb.librewolf.net
-#Suites: $distro
-#Components: main
-#Architectures: amd64
-#Signed-By: /usr/share/keyrings/librewolf.gpg
-#EOF
-#sudo apt-get update > /dev/null
-#sudo apt-get install -y -qq librewolf > /dev/null
-#echo -e "$plus Complete"
+echo -e "\n$plus Installing Librewolf..."
+sudo apt-get update > /dev/null
+sudo apt-get install -y -qq wget gnupg lsb-release apt-transport-https ca-certificates > /deb/null
+wget -qO - https://deb.librewolf.net/keyring.gpg | sudo apt-key add -
+sudo tee /etc/apt/sources.list.d/librewolf.list << EOF
+deb [arch=amd64] https://deb.librewolf.net bullseye main
+EOF
+sudo apt-get update > /dev/null
+sudo apt-get install -y -qq librewolf > /dev/null
+echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Joplin..."
 wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
@@ -115,10 +109,8 @@ sudo dpkg -i ~/Chrome.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$plus Complete"
 
 echo -e "\n$plus Installing Signal..."
-wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
-cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-	sudo tee /etc/apt/sources.list.d/signal-xenial.list
+wget -qO- https://updates.signal.org/desktop/apt/keys.asc | sudo apt-key add -
+echo 'deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main' | sudo tee /etc/apt/sources.list.d/signal-xenial.list
 sudo apt-get update > /dev/null
 sudo apt-get install -y -qq signal-desktop > /dev/null
 echo -e "$plus Complete"
@@ -145,7 +137,6 @@ echo -e "\n$plus Installing Oh-My-ZSH and seeting up Powerlevel10k..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k > /dev/null
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-exit
 echo -e "$plus Complete"
 
 echo -e "\n$plus Cleaning up files/folders..."
