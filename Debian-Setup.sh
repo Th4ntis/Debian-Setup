@@ -121,7 +121,7 @@ echo -e "$green Complete"
 
 echo -e "========= Dotfiles/Personalization =========="
 echo -e "\n$green Getting Debian-Setup..."
-git clone --quiet https://github.com/Th4ntis/Debian-Setup.git ~/Debian-Setup  > /dev/null
+git clone --quiet https://github.com/Th4ntis/Debian-Setup.git ~/Debian-Setup > /dev/null
 echo -e "Copying .zshrc..."
 cp ~/Debian-Setup/zsh/.zshrc ~/
 echo -e "Copying .aliases..."
@@ -133,10 +133,10 @@ echo -e "Copying tmux files and plugins..."
 cp ~/Debian-Setup/tmux/.tmux.conf ~/
 mkdir ~/.tmux
 mkdir ~/.tmux/plugins
-cp -r ~/Debian-Setup/tmux/tpm ~/.tmux/plugins/
-cp -r ~/Debian-Setup/tmux/tmux-battery ~/.tmux/plugins/
-cp -r ~/Debian-Setup/tmux/tmux-cpu ~/.tmux/plugins/
-cp -r ~/Debian-Setup/tmux/tmux-yank ~/.tmux/plugins/
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm > /dev/null
+git clone https://github.com/tmux-plugins/tmux-cpu ~/.tmux/plugins/tmux-cpu > /dev/null
+git clone https://github.com/tmux-plugins/tmux-battery ~/.tmux/plugins/tmux-battery > /dev/null
+git clone https://github.com/tmux-plugins/tmux-yank ~/.tmux/plugins/tmux-yank > /dev/null
 echo -e "Copying fonts..."
 sudo mkdir /usr/share/fonts/truetype/MesloLGS
 sudo cp ~/Debian-Setup/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
