@@ -61,33 +61,6 @@ wget -q "https://discord.com/api/download?platform=linux&format=deb" -O ~/Discor
 sudo dpkg -i ~/Discord.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$green Complete"
 
-echo -e "\n$green Performing setup and install for Yubikey..."
-sudo systemctl start pcscd
-sudo systemctl enable pcscd
-wget -q https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz -O ~/Yubikey.tar.gz
-tar -xf Yubikey.tar.gz && cd ~/yubico-authenticator*
-./desktop_integration.sh -i
-cd
-echo -e "$green Complete"
-
-echo -e "\n$green Installing ProtonVPN..."
-wget -q -O - https://repo.protonvpn.com/debian/public_key.asc | sudo apt-key add -
-echo 'deb https://repo.protonvpn.com/debian stable main' | sudo tee /etc/apt/sources.list.d/protonvpn.list
-sudo apt-get update > /dev/null
-sudo apt-get install -y -qq proton-vpn-gnome-desktop libayatana-appindicator3-1 gir1.2-ayatanaappindicator3-0.1 gnome-shell-extension-appindicator > /dev/null
-echo -e "$green Complete"
-
-echo -e "\n$green Installing Librewolf..."
-sudo apt-get update > /dev/null
-sudo apt-get install -y -qq wget gnupg lsb-release apt-transport-https ca-certificates > /dev/null
-wget -qO - https://deb.librewolf.net/keyring.gpg | sudo apt-key add -
-sudo tee /etc/apt/sources.list.d/librewolf.list << EOF
-deb [arch=amd64] https://deb.librewolf.net bullseye main
-EOF
-sudo apt-get update > /dev/null
-sudo apt-get install -y -qq librewolf > /dev/null
-echo -e "$green Complete"
-
 echo -e "\n$green Installing Joplin..."
 wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
 echo -e "$green Complete"
@@ -123,14 +96,14 @@ echo -e "========= Dotfiles/Personalization =========="
 echo -e "\n$green Getting Debian-Setup..."
 git clone --quiet https://github.com/Th4ntis/Debian-Setup.git ~/Debian-Setup > /dev/null
 echo -e "Copying .zshrc..."
-cp ~/Debian-Setup/zsh/.zshrc ~/
+cp ~/Debian-Setup/zsh/zshrc ~/.zshrc
 echo -e "Copying .aliases..."
-cp ~/Debian-Setup/zsh/.aliases ~/.aliases
+cp ~/Debian-Setup/zsh/aliases ~/.aliases
 echo -e "Copying terminator config..."
 mkdir ~/.config/terminator
 cp ~/Debian-Setup/terminator/config ~/.config/terminator/config
 echo -e "Copying tmux files and plugins..."
-cp ~/Debian-Setup/tmux/.tmux.conf ~/
+cp ~/Debian-Setup/tmux/tmux.conf ~/.tmux.conf
 mkdir ~/.tmux
 mkdir ~/.tmux/plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm > /dev/null
@@ -143,38 +116,9 @@ sudo cp ~/Debian-Setup/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
 echo -e "Copying fusuma config..."
 cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 
-echo -e "Setting Wallapaper..."
-sudo mkdir /usr/share/desktop-base/th4ntis-theme
-sudo wget -O /usr/share/desktop-base/th4ntis-theme/th4ntis.png https://raw.githubusercontent.com/th4ntis/Debian-Setup/main/images/CyberSpider-UG-Outline.png
-WALLPAPER_PATH="/usr/share/backgrounds/th4ntis.png"
-# PLASMA_CONFIG_DIR="$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc"
-
-# Check if the provided file exists
-if [ ! -f "$WALLPAPER_PATH" ]; then
-    echo "File not found!"
-    exit 1
-fi
-
-# Set the wallpaper using the provided PNG file
-wallpaper_path=$(realpath "$WALLPAPER_PATH")
-qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "
-var Desktops = desktops();
-for (i=0; i<Desktops.length; i++) {
-    d = Desktops[i];
-    d.wallpaperPlugin = 'org.kde.image';
-    d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');
-    d.writeConfig('Image', 'file://$wallpaper_path')
-    d.writeConfig('FillMode', 6);  // 6 is for 'Center'
-}
-"
-echo -e "$green Complete"
-
 echo -e "\n$green Cleaning up files/folders..."
 sudo rm ~/Discord.deb
 rm ~/Chrome.deb
-sudo rm ~/ProtonVPN.deb
-sudo rm ~/Yubikey.tar.gz
-sudo rm -r ~/yubico-*
 echo -e "$green Complete"
 
 echo -e "\n$green All finished! Press Enter to reboot or CTRL+C to manually reboot later."
