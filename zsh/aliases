@@ -1,4 +1,4 @@
-alias upd='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y' # self explanitory
+alias upd='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y' # self explanitory
 alias ls='ls --hyperlink=always --color=auto' # ls with hyperlinks (ctrl+click)
 alias ll='ls -lhN --hyperlink=always --color=auto' # ls long-list, human readable, literal with hyperlinks (ctrl+click)
 alias lll='ls -al --hyperlink=always --color=auto' # ls all files, long-list with hyperlinks (ctrl+click)
@@ -16,3 +16,5 @@ alias getip="nslookup $1 | grep Address: | grep -v \# | cut -d' ' -f2"
 alias http='sudo python3 -m http.server 80'
 alias myip='curl ifconfig.me/ip'
 alias ifconfig='ip -c --brief addr show'
+alias ts-up='sudo tailscale up'
+alias ts-down='sudo tailscale down'
