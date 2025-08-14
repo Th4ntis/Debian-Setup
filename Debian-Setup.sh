@@ -112,7 +112,7 @@ git clone https://github.com/tmux-plugins/tmux-battery ~/.tmux/plugins/tmux-batt
 git clone https://github.com/tmux-plugins/tmux-yank ~/.tmux/plugins/tmux-yank > /dev/null
 echo -e "Copying fonts..."
 sudo mkdir /usr/share/fonts/truetype/MesloLGS
-sudo cp ~/Debian-Setup/Fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
+sudo cp ~/Debian-Setup/fonts/*.ttf /usr/share/fonts/truetype/MesloLGS/
 echo -e "Copying fusuma config..."
 cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 
