@@ -61,8 +61,9 @@ wget -q "https://discord.com/api/download?platform=linux&format=deb" -O ~/Discor
 sudo dpkg -i ~/Discord.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$green Complete"
 
-echo -e "\n$green Installing Joplin..."
-wget -O - https://raw.githubusercontent.com/laurent22/joplin/master/Joplin_install_and_update.sh | bash
+echo -e "\n$green Installing Obsidian..."
+wget -q "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/obsidian_1.12.7_amd64.deb"  -O ~/Obsidian.deb
+sudo dpkg -i ~/Obsidian.deb;sudo apt install -y -f 2> /dev/null
 echo -e "$green Complete"
 
 echo -e "\n$green Installing and setitng up Fusuma..."
@@ -118,7 +119,8 @@ cp -r ~/Debian-Setup/fusuma/config.yml ~/.config/fusuma/
 
 echo -e "\n$green Cleaning up files/folders..."
 sudo rm ~/Discord.deb
-rm ~/Chrome.deb
+sudo rm ~/Chrome.deb
+sudo rm ~/Obsidian.deb
 echo -e "$green Complete"
 
 echo -e "\n$green All finished! Press Enter to reboot or CTRL+C to manually reboot later."
