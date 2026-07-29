@@ -1,4 +1,6 @@
 [global_config]
+  window_state = maximise
+  ask_before_closing = never
 [keybindings]
   split_horiz = <Primary><Shift>q
   close_window = <Primary><Shift><Alt>F12
@@ -12,8 +14,7 @@
     foreground_color = "#00ff00"
     show_titlebar = False
     scrollbar_position = hidden
-    use_custom_command = True
-    custom_command = tmux attach -t main || tmux new -s main
+    scrollback_lines = 10000
     use_system_font = False
 [layouts]
   [[default]]
@@ -23,4 +24,5 @@
     [[[child1]]]
       type = Terminal
       parent = window0
+      profile = default
 [plugins]
